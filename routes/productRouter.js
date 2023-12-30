@@ -1,6 +1,13 @@
 const express = require("express");
 const { requireSignIn, isAdmin } = require("../middleware/authMiddleware");
-const { createProductController, getProductController, getSingleProductController, productPhotoController, deleteProductController, updateProductController } = require("../controllers/productController");
+const {
+    createProductController,
+    getProductController,
+    getSingleProductController,
+    productPhotoController,
+    deleteProductController,
+    updateProductController
+} = require("../controllers/productController");
 const formdable = require("express-formidable");
 
 const router = express.Router();
