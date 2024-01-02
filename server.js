@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const authRouter = require('./routes/authRouter')
 const categoryRouter = require('./routes/categoryRouter')
 const productRouter = require("./routes/productRouter")
+const storeRouter = require('./routes/storeRouter')
 
 // Configure env
 dotenv.config()
@@ -28,6 +29,7 @@ app.use(morgan('dev'))
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/category', categoryRouter);
 app.use('/api/v1/product', productRouter);
+app.use('/api/v1/store', storeRouter);
 
 // API REST
 app.get("/", (req, res) => {
