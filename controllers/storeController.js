@@ -45,7 +45,12 @@ const createNewStore = async (req, res) => {
                 message: 'Invalid phone number format'
             });
         }
-
+        const timeFormatRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/; // Biểu thức chính quy kiểm tra định dạng giờ:phút
+        if (!timeFormatRegex.test(timeClose || timeOpen)) {
+            return res.status(400).json({
+                message: 'Vui lòng nhập định dạng giờ:phút hợp lệ (HH:mm)'
+            })
+        }
         const openTime = new Date(`2022-01-01 ${timeOpen}`);
         const closeTime = new Date(`2022-01-01 ${timeClose}`);
         if (openTime >= closeTime) {
@@ -153,7 +158,7 @@ const getPagingStore = async (req, res) => {
         const count = await storeModel.countDocuments()
         const totalPage = Math.ceil(count / pageSize)
 
-        return res.status(200), json({
+        return res.status(200).json({
             storeAll,
             totalPage,
             count
@@ -165,4 +170,81 @@ const getPagingStore = async (req, res) => {
     }
 }
 
-module.exports = { createNewStore, getAllAddress, getAddress, getPagingStore };
+const deleteStore = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await storeModel.deleteOne({ id: id })
+
+        if (result.deletedCount === 1) {
+            return res.status(200).json({
+                message: "Đã xóa 1 cửa hàng"
+            })
+
+        }
+        else {
+            return res.status(404).json({
+                message: "Địa chỉ này không tồn tại"
+            })
+        }
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "Lỗi server",
+            error: error.message,
+        });
+    }
+}
+
+const editStore = async (req, res) => {
+    try {
+        const id = req.params._id;
+        const city = req.body.city;
+        const district = req.body.district;
+        const address = req.body.address;
+        const phoneNumber = req.body.phoneNumber;
+        const timeOpen = req.body.timeOpen;
+        const timeClose = req.body.timeClose;
+
+        let dataUpdate = {
+            id,
+            city,
+            district,
+            address,
+            phoneNumber,
+            timeClose,
+            timeOpen
+        }
+
+        const storeUpdate = await storeModel.findOneAndUpdate({ id: id }, dataUpdate, { new: true })
+        return res.status(200).json({
+            message: "Update địa chỉ cửa hàng thành công",
+            storeUpdate
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+const getStoreById = async (req, res) => {
+    try {
+        const storeId = req.params.id;
+        const getStore = await storeModel.findById(storeId)
+        return res.status(200).json({
+            getStore
+        })
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+}
+module.exports = {
+    createNewStore,
+    getAllAddress,
+    getAddress,
+    getPagingStore,
+    deleteStore,
+    editStore,
+    getStoreById
+};
