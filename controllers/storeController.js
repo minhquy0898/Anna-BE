@@ -173,7 +173,7 @@ const getPagingStore = async (req, res) => {
 const deleteStore = async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await storeModel.deleteOne({ id: id })
+        const result = await storeModel.deleteOne({ _id: id })
 
         if (result.deletedCount === 1) {
             return res.status(200).json({
@@ -197,7 +197,7 @@ const deleteStore = async (req, res) => {
 
 const editStore = async (req, res) => {
     try {
-        const id = req.params._id;
+        const id = req.params.id;
         const city = req.body.city;
         const district = req.body.district;
         const address = req.body.address;
@@ -215,7 +215,7 @@ const editStore = async (req, res) => {
             timeOpen
         }
 
-        const storeUpdate = await storeModel.findOneAndUpdate({ id: id }, dataUpdate, { new: true })
+        const storeUpdate = await storeModel.findOneAndUpdate({ _id: id }, dataUpdate, { new: true })
         return res.status(200).json({
             message: "Update địa chỉ cửa hàng thành công",
             storeUpdate
@@ -239,6 +239,7 @@ const getStoreById = async (req, res) => {
         });
     }
 }
+
 module.exports = {
     createNewStore,
     getAllAddress,
