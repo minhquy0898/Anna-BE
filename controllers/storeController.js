@@ -60,7 +60,7 @@ const createNewStore = async (req, res) => {
         }
 
 
-        const existingStore = await storeModel.findOne({ address: address })
+        const existingStore = await storeModel.findOne({ address: address, city: city, district: district })
         if (existingStore) {
             return res.status(400).json({
                 message: 'The address of store already exist'
@@ -213,6 +213,36 @@ const editStore = async (req, res) => {
             phoneNumber,
             timeClose,
             timeOpen
+        }
+        if (!city) {
+            return res.send({
+                message: 'City is required'
+            })
+        }
+        if (!district) {
+            return res.send({
+                message: 'District is required'
+            })
+        }
+        if (!address) {
+            return res.send({
+                message: 'Address is required'
+            })
+        }
+        if (!phoneNumber) {
+            return res.send({
+                message: 'Phone number is required'
+            })
+        }
+        if (!timeOpen) {
+            return res.send({
+                message: 'Open time is required'
+            })
+        }
+        if (!timeClose) {
+            return res.send({
+                message: 'Close time is required'
+            })
         }
 
         const storeUpdate = await storeModel.findOneAndUpdate({ _id: id }, dataUpdate, { new: true })

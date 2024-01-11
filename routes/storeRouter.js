@@ -10,4 +10,4 @@ router.get('/getPagingStore', getPagingStore)
 router.delete('/deleteStore/:id', deleteStore);
 router.put('/:id', editStore)
 router.get('/getStoreById/:id', getStoreById)
-module.exports = router
+module.exports = router 
