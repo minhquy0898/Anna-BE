@@ -29,9 +29,6 @@ const productSchema = new mongoose.Schema({
     photo: {
         data: Buffer,
         contentType: String
-    },
-    shipping: {
-        type: Boolean,
     }
 }, {
     timestamps: true

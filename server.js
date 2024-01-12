@@ -8,6 +8,7 @@ const authRouter = require('./routes/authRouter')
 const categoryRouter = require('./routes/categoryRouter')
 const productRouter = require("./routes/productRouter")
 const storeRouter = require('./routes/storeRouter')
+const orderRouter = require('./routes/orderRouter')
 
 // Configure env
 dotenv.config()
@@ -30,6 +31,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/category', categoryRouter);
 app.use('/api/v1/product', productRouter);
 app.use('/api/v1/store', storeRouter);
+app.use('/api/v1/order', orderRouter)
 
 // API REST
 app.get("/", (req, res) => {

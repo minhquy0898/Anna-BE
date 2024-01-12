@@ -22,6 +22,16 @@ const userSchema = new mongoose.Schema({
     role: {
         type: Number,
         default: 0
+    },
+    orders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Order'
+        }
+    ],
+    isOrdering: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
     }
 }, {
     timestamps: true,
